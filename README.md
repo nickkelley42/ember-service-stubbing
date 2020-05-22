@@ -1,57 +1,38 @@
-# demo-testing-services
+# Ember Service Testing Demo
 
-This README outlines the details of collaborating on this Ember application.
-A short introduction of this app could easily go here.
+This project demos Ember's service feature, and how to use it for 
+automated testing.
 
-## Prerequisites
+## Running production-like setup
 
-You will need the following things properly installed on your computer.
+There are two services; the frontend Ember service and the backend API.
 
-* [Git](https://git-scm.com/)
-* [Node.js](https://nodejs.org/) (with npm)
-* [Ember CLI](https://ember-cli.com/)
-* [Google Chrome](https://google.com/chrome/)
+* API - very simple Node.js app; it responds with the exact same data to 
+  any HTTP request. To run, in the project root:
+  ```
+  $ npm api
+  ```
+* Frontend - normal Ember project. In the project root, run `ember s`
 
-## Installation
+Running both services, navigate to 
+[localhost:4200](http://localhost:4200) to see the app in action; it 
+displays a very barebones piece of content, with several 'comments' 
+fetched from the API.
 
-* `git clone <repository-url>` this repository
-* `cd demo-testing-services`
-* `npm install`
+## Running automated tests
 
-## Running / Development
+Everything breaks if you just want to run automated tests. Make sure 
+that the API service is not running and run `ember s` by itself.  
+Navigate to [localhost:4200/tests](http://localhost:4200/tests), and 
+notice that the `visit index` acceptance test fails; this is because 
+Ember is trying to fetch from a service that isn't running!
 
-* `ember serve`
-* Visit your app at [http://localhost:4200](http://localhost:4200).
-* Visit your tests at [http://localhost:4200/tests](http://localhost:4200/tests).
+For certain types of tests, you want to be running the full stack to be 
+sure that all services are working together properly. However, you want 
+tests to be as simple as possible so that they can run quickly, and so 
+that you can isolate problems - as simple as possible, but no simpler.  
+For example, running the full stack is overkill if you just want to make 
+sure that your app renders comments correctly.
 
-### Code Generators
-
-Make use of the many generators for code, try `ember help generate` for more details
-
-### Running Tests
-
-* `ember test`
-* `ember test --server`
-
-### Linting
-
-* `npm run lint:hbs`
-* `npm run lint:js`
-* `npm run lint:js -- --fix`
-
-### Building
-
-* `ember build` (development)
-* `ember build --environment production` (production)
-
-### Deploying
-
-Specify what it takes to deploy your app.
-
-## Further Reading / Useful Links
-
-* [ember.js](https://emberjs.com/)
-* [ember-cli](https://ember-cli.com/)
-* Development Browser Extensions
-  * [ember inspector for chrome](https://chrome.google.com/webstore/detail/ember-inspector/bmdblncegkenkacieihfhpjfppoconhi)
-  * [ember inspector for firefox](https://addons.mozilla.org/en-US/firefox/addon/ember-inspector/)
+The solution is to mock the Ember Data `store` service. Checkout the 
+`mock-store` branch to see this in action!
