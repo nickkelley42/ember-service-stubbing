@@ -1,0 +1,11 @@
+<h1>Some content</h1>
+<p>yackidy yack yack yack internet stuff</p>
+<hr />
+<h2>Comments</h2>
+{{#each model as |comment|}}
+  <div class="comment">
+    <p><em>{{comment.username}}</em></p>
+    <p>{{comment.body}}</p>
+  </div>
+{{/each}}
+{{outlet}}
